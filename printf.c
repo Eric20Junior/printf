@@ -1,45 +1,86 @@
 #include "main.h"
-#include <stdlib.h>
-
+#include <stdarg.h>
 /**
- * _printf - prints any string with certain flags for modification
- * @format: the string of characters to write to buffer
- * Return: an integer that counts how many writes to the buffer were made
+ * _printf - print format
+ * @format:char * - string
+ *
+ * Return: int - string length
  */
 int _printf(const char *format, ...)
 {
-	int i = 0, var = 0;
-	va_list v_ls;
-	buffer *buf;
+	int len = 0;
+	const char *string;
+	va_list arg;
 
-	buf = buf_new();
-	if (buf == NULL)
-		return (-1);
-	if (format == NULL)
-		return (-1);
-	va_start(v_ls, format);
-	while (format[i])
+	va_start(arg, format);
+	if (format)
 	{
-		buf_wr(buf);
-		if (format[i] == '%')
+		string = format;
+		len = get_strlen(string);
+		while (*format)
 		{
-			var = opid(buf, v_ls, format, i);
-			if (var < 0)
+			if (*format == '%')
 			{
-				i = var;
+				format++;
+				switch (*format)
+				{
+				case 's':
+				{
+					char *ret = va_arg(arg, char*);
+
+					while (*ret)
+					{
+						_putchar(*ret);
+						ret++;
+					}
+				}
 				break;
+				case 'c':
+					_putchar((char)va_arg(arg, int));
+				break;
+				case 'd':
+				{
+					int ret = va_arg(arg, int);
+
+					print_int(ret);
+				}
+				break;
+				case 'i':
+				{
+					int ret = va_arg(arg, int);
+
+					print_int(ret);
+				}
+				break;
+				case '%':
+				{
+					_putchar('%');
+				}
+				break;
+				case 'u':
+				{
+					int ret = va_arg(arg, unsigned int);
+
+					if (ret < 0)
+					{
+						ret = ret * -1;
+					}
+					print_int(ret);
+				}
+				break;
+				default:
+				{
+					_putchar(*format);
+				}
+				break;
+				}
 			}
-			i += var;
-			continue;
+			else
+			{
+				_putchar(*format);
+			}
+			format++;
 		}
-		buf->str[buf->index] = format[i];
-		buf_inc(buf);
-		i++;
 	}
-	buf_write(buf);
-	if (var >= 0)
-		i = buf->overflow;
-	buf_end(buf);
-	va_end(v_ls);
-	return (i);
+	return (len);
 }
