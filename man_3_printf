@@ -1,4 +1,4 @@
-.TH _PRINTF "808" "November 2018" "Holberton"
+.TH _PRINTF "08" "October 2021" "ALX"
 .SH NAME
 printf \- prints supplied string with certain operators for substitution and formatting
 .SH SYNOPSIS
@@ -28,4 +28,4 @@ ARGUMENT of data type integer is printed in its place.
 %b
 ARGUMENT of data type integer is converted to binary.
 .SH AUTHOR
-Written br Eric Glory Rukevwe.
+Written by Eric Glory Rukevwe.
